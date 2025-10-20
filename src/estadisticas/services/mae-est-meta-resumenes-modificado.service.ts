@@ -8,7 +8,7 @@ import { UpdateMaeEstMetaResumenesModificadoDto } from '../dto/mae-est-meta-resu
 @Injectable()
 export class MaeEstMetaResumenesModificadoService {
   constructor(
-    @InjectRepository(MaeEstMetaResumenesModificado)
+    @InjectRepository(MaeEstMetaResumenesModificado, 'estadisticas')
     private readonly metaResumenesRepository: Repository<MaeEstMetaResumenesModificado>,
   ) {}
 

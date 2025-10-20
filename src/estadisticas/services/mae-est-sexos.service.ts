@@ -8,7 +8,7 @@ import { UpdateMaeEstSexosDto } from '../dto/mae-est-sexos.dto';
 @Injectable()
 export class MaeEstSexosService {
   constructor(
-    @InjectRepository(MaeEstSexos)
+    @InjectRepository(MaeEstSexos, 'estadisticas')
     private readonly sexosRepository: Repository<MaeEstSexos>,
   ) {}
 

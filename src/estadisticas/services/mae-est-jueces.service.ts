@@ -13,11 +13,11 @@ import { JuezCompletoDto } from '../dto/juez-completo.dto';
 @Injectable()
 export class MaeEstJuecesService {
   constructor(
-    @InjectRepository(MaeEstJueces)
+    @InjectRepository(MaeEstJueces, 'estadisticas')
     private readonly juecesRepository: Repository<MaeEstJueces>,
-    @InjectRepository(MaeEstMetaResumenesModificado)
+    @InjectRepository(MaeEstMetaResumenesModificado, 'estadisticas')
     private readonly metaResumenesRepository: Repository<MaeEstMetaResumenesModificado>,
-    @InjectRepository(MovEstInstanciaJueces)
+    @InjectRepository(MovEstInstanciaJueces, 'estadisticas')
     private readonly instanciaJuecesRepository: Repository<MovEstInstanciaJueces>,
   ) {}
 

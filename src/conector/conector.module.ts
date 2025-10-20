@@ -18,7 +18,7 @@ import { MaeEstInstancia } from './entities/mae-est-instancia.entity';
       MaeEstUsuarios,
       MaeEstSexos,
       MaeEstInstancia,
-    ]),
+    ], 'estadisticas'), // Conexión específica para estadísticas
   ],
   exports: [
     TypeOrmModule,

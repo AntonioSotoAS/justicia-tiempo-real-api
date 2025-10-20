@@ -8,7 +8,7 @@ import { UpdateMaeEstInstanciaDto } from '../dto/mae-est-instancia.dto';
 @Injectable()
 export class MaeEstInstanciaService {
   constructor(
-    @InjectRepository(MaeEstInstancia)
+    @InjectRepository(MaeEstInstancia, 'estadisticas')
     private readonly instanciaRepository: Repository<MaeEstInstancia>,
   ) {}
 
