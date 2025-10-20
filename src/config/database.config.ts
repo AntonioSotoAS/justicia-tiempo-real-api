@@ -32,6 +32,13 @@ export const mainDbConfig: TypeOrmModuleOptions = {
   entities: [__dirname + '/../app/entities/*.entity{.ts,.js}'],
   timezone: 'Z',
   charset: 'utf8mb4',
-  synchronize: process.env.NODE_ENV === 'development', // Solo en desarrollo
+  synchronize: true, // Habilitar sincronización para crear tablas
   logging: ['error', 'warn', 'query'],
+};
+
+export const jwtConfig = {
+  secret: process.env.JWT_SECRET || 'your-secret-key',
+  refreshSecret: process.env.JWT_REFRESH_SECRET || 'refresh-secret-key',
+  expiresIn: '15m',
+  refreshExpiresIn: '7d',
 };

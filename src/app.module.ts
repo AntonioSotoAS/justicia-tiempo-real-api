@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { EstadisticasModule } from './estadisticas/estadisticas.module';
@@ -8,6 +9,10 @@ import { estadisticasDbConfig, mainDbConfig } from './config/database.config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    
     // Conexión a la base de datos de estadísticas (solo lectura)
     TypeOrmModule.forRoot({
       ...estadisticasDbConfig,
