@@ -1,99 +1,330 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🏛️ JustiBot API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+> **API REST para el Sistema de Gestión Judicial - Estadísticas y Meta Resúmenes**
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Una API robusta construida con **NestJS** y **TypeORM** para la gestión de datos judiciales, jueces, instancias y meta resúmenes del sistema judicial.
 
-## Description
+## 🚀 Características
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- ✅ **API REST completa** con NestJS
+- ✅ **Base de datos MySQL** con TypeORM
+- ✅ **Gestión de Jueces** con datos completos
+- ✅ **Meta Resúmenes** por instancia y período
+- ✅ **Validación de datos** con DTOs
+- ✅ **Documentación automática** con Swagger
+- ✅ **Arquitectura modular** y escalable
 
-## Project setup
+## 📋 Tabla de Contenidos
 
+- [Instalación](#-instalación)
+- [Configuración](#-configuración)
+- [Endpoints](#-endpoints)
+- [Estructura del Proyecto](#-estructura-del-proyecto)
+- [Base de Datos](#-base-de-datos)
+- [Desarrollo](#-desarrollo)
+- [Contribución](#-contribución)
+
+## 🛠️ Instalación
+
+### Prerrequisitos
+
+- **Node.js** >= 18.0.0
+- **npm** >= 8.0.0
+- **MySQL** >= 8.0
+
+### Pasos de instalación
+
+1. **Clonar el repositorio**
 ```bash
-$ npm install
+git clone <repository-url>
+cd justibot-api
 ```
 
-## Compile and run the project
-
+2. **Instalar dependencias**
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Run tests
-
+3. **Configurar variables de entorno**
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+cp .env.example .env
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
+4. **Configurar la base de datos**
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+# Crear la base de datos MySQL
+mysql -u root -p
+CREATE DATABASE justibot_db;
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## ⚙️ Configuración
 
-## Resources
+### Variables de Entorno
 
-Check out a few resources that may come in handy when working with NestJS:
+Crea un archivo `.env` en la raíz del proyecto:
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```env
+# Base de datos
+DB_HOST=localhost
+DB_PORT=3306
+DB_USERNAME=root
+DB_PASSWORD=tu_password
+DB_DATABASE=justibot_db
 
-## Support
+# Aplicación
+PORT=5002
+NODE_ENV=development
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Estructura de Base de Datos
 
-## Stay in touch
+La API maneja las siguientes entidades principales:
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- **Jueces** (`mae_est_jueces`)
+- **Usuarios** (`mae_est_usuarios`)
+- **Instancias** (`mae_est_instancia`)
+- **Tipos de Juez** (`mae_est_juez_tipos`)
+- **Sexos** (`mae_est_sexos`)
+- **Meta Resúmenes** (`mae_est_meta_resumenes_modificado`)
 
-## License
+## 🎯 Endpoints
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
-# justicia-tiempo-real-api
+### 👨‍⚖️ Jueces
+
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| `GET` | `/jueces` | Obtener todos los jueces |
+| `GET` | `/jueces/activos` | Jueces activos |
+| `GET` | `/jueces/completos` | Jueces con datos completos |
+| `GET` | `/jueces/con-meta-resumenes/:anio/:mes` | Jueces con meta resúmenes |
+| `GET` | `/jueces/:id` | Juez por ID |
+| `POST` | `/jueces` | Crear nuevo juez |
+| `PATCH` | `/jueces/:id` | Actualizar juez |
+| `DELETE` | `/jueces/:id` | Eliminar juez |
+
+### 📊 Meta Resúmenes
+
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| `GET` | `/jueces/meta-resumen/:anio/:mes/:instanciaId` | Meta resúmenes por instancia |
+| `GET` | `/jueces/meta-resumenes` | Todos los meta resúmenes |
+
+### 🏢 Instancias
+
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| `GET` | `/instancias` | Todas las instancias |
+| `GET` | `/instancias/activas` | Instancias activas |
+| `GET` | `/instancias/:id` | Instancia por ID |
+
+### 👥 Usuarios
+
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| `GET` | `/usuarios` | Todos los usuarios |
+| `GET` | `/usuarios/:id` | Usuario por ID |
+
+## 📁 Estructura del Proyecto
+
+```
+justibot-api/
+├── src/
+│   ├── conector/                 # Módulo de conexión a BD
+│   │   ├── entities/            # Entidades TypeORM
+│   │   └── conector.module.ts
+│   ├── estadisticas/            # Módulo principal
+│   │   ├── controllers/         # Controladores REST
+│   │   ├── services/           # Lógica de negocio
+│   │   ├── dto/                # Data Transfer Objects
+│   │   └── estadisticas.module.ts
+│   ├── app.module.ts           # Módulo principal
+│   └── main.ts                 # Punto de entrada
+├── test/                       # Tests
+├── package.json
+└── README.md
+```
+
+## 🗄️ Base de Datos
+
+### Entidades Principales
+
+#### 👨‍⚖️ Jueces (`mae_est_jueces`)
+- `n_id_juez` - ID único del juez
+- `l_activo` - Estado activo/inactivo
+- `usuario_id` - Referencia al usuario
+- `n_id_juez_tipo_id` - Tipo de juez
+
+#### 🏢 Instancias (`mae_est_instancia`)
+- `n_instancia_id` - ID único de la instancia
+- `x_nom_instancia` - Nombre de la instancia
+- `c_distrito` - Código del distrito
+- `c_provincia` - Código de la provincia
+
+#### 📊 Meta Resúmenes (`mae_est_meta_resumenes_modificado`)
+- `n_id_meta_resumen_mod` - ID único del resumen
+- `n_instancia_id` - Referencia a la instancia
+- `n_anio_est` - Año del resumen
+- `n_mes_est` - Mes del resumen
+- `m_t_resuelto` - Total resuelto
+- `m_avan_meta` - Avance de meta
+
+## 🚀 Desarrollo
+
+### Comandos disponibles
+
+```bash
+# Desarrollo
+npm run start:dev
+
+# Producción
+npm run start:prod
+
+# Build
+npm run build
+
+# Tests
+npm run test
+npm run test:e2e
+npm run test:cov
+
+# Linting
+npm run lint
+npm run lint:fix
+```
+
+### Ejemplos de Uso
+
+#### Obtener jueces con meta resúmenes
+```bash
+GET /jueces/con-meta-resumenes/2025/10
+```
+
+#### Obtener meta resúmenes por instancia
+```bash
+GET /jueces/meta-resumen/2025/10/250017
+```
+
+#### Respuesta de ejemplo
+```json
+{
+  "n_id_juez": 1,
+  "x_nombres": "Juan Carlos",
+  "x_app_paterno": "Pérez",
+  "x_app_materno": "García",
+  "x_nom_instancia": "1° JUZGADO LABORAL",
+  "m_t_resuelto": 349,
+  "m_avan_meta": 85.5,
+  "tiene_meta_resumen": true
+}
+```
+
+## 🧪 Testing
+
+```bash
+# Tests unitarios
+npm run test
+
+# Tests e2e
+npm run test:e2e
+
+# Cobertura de tests
+npm run test:cov
+```
+
+## 📚 Documentación API
+
+La documentación automática está disponible en:
+- **Swagger UI**: `http://localhost:5002/api`
+- **JSON Schema**: `http://localhost:5002/api-json`
+
+## 🔧 Configuración Avanzada
+
+### Base de Datos
+
+```typescript
+// src/conector/conector.module.ts
+TypeOrmModule.forRoot({
+  type: 'mysql',
+  host: process.env.DB_HOST,
+  port: parseInt(process.env.DB_PORT),
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+  entities: [/* entidades */],
+  synchronize: false, // En producción usar migraciones
+})
+```
+
+### Validación
+
+Los DTOs incluyen validación automática:
+
+```typescript
+export class CreateJuezDto {
+  @IsString()
+  @IsNotEmpty()
+  l_activo: string;
+
+  @IsNumber()
+  usuario_id: number;
+}
+```
+
+## 🚀 Despliegue
+
+### Producción
+
+1. **Configurar variables de entorno**
+2. **Ejecutar migraciones de BD**
+3. **Build del proyecto**
+4. **Iniciar la aplicación**
+
+```bash
+npm run build
+npm run start:prod
+```
+
+### Docker (Opcional)
+
+```dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY dist ./dist
+EXPOSE 5002
+CMD ["node", "dist/main"]
+```
+
+## 🤝 Contribución
+
+1. Fork el proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## 📝 Licencia
+
+Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+
+## 👥 Equipo
+
+- **Desarrollador Principal**: [Tu Nombre]
+- **Email**: tu.email@ejemplo.com
+- **GitHub**: [@tuusuario](https://github.com/tuusuario)
+
+## 🆘 Soporte
+
+Si tienes problemas o preguntas:
+
+1. Revisa la [documentación](https://docs.nestjs.com)
+2. Busca en [Issues existentes](../../issues)
+3. Crea un [nuevo issue](../../issues/new)
+
+---
+
+<div align="center">
+  <p>Hecho con ❤️ para el Sistema Judicial</p>
+  <p>© 2024 JustiBot API. Todos los derechos reservados.</p>
+</div>
