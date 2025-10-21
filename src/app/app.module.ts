@@ -5,6 +5,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { SeedModule } from './seed/seed.module';
 import { EstadisticaModule } from './estadistica/estadistica.module';
+import { SolicitudesModule } from './solicitudes/solicitudes.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { EstadisticaModule } from './estadistica/estadistica.module';
     AuthModule,
     SeedModule,
     EstadisticaModule,
+    SolicitudesModule,
   ],
   exports: [TypeOrmModule],
 })
