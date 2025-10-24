@@ -12,18 +12,25 @@ import {
 import { SolicitudesService } from './solicitudes.service';
 import { CreateSolicitudDto } from './dto/create-solicitud.dto';
 import { UpdateSolicitudDto } from './dto/update-solicitud.dto';
-import { EstadoSolicitud, PrioridadSolicitud } from './entities/solicitud.entity';
+import { Solicitud, EstadoSolicitud, PrioridadSolicitud } from './entities/solicitud.entity';
 import { Auth, AuthWithRoles, CurrentUser, Public } from '../auth/decorators/auth.decorators';
+import { WhatsappService } from '../whatsapp/whatsapp.service';
+import { CronSchedulerService } from './cron-scheduler.service';
 
 @Controller('solicitudes')
 export class SolicitudesController {
-  constructor(private readonly solicitudesService: SolicitudesService) {}
+  constructor(
+    private readonly solicitudesService: SolicitudesService,
+    private readonly whatsappService: WhatsappService,
+    private readonly cronSchedulerService: CronSchedulerService
+  ) {}
 
   @Public()
   @Post()
   create(@Body() createSolicitudDto: CreateSolicitudDto) {
     return this.solicitudesService.create(createSolicitudDto);
   }
+
 
   @Auth()
   @Get()
@@ -81,5 +88,115 @@ export class SolicitudesController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.solicitudesService.remove(+id);
+  }
+
+  @AuthWithRoles('admin')
+  @Post(':id/enviar-whatsapp')
+  async enviarWhatsapp(@Param('id') id: string) {
+    const solicitud = await this.solicitudesService.findOne(+id);
+    if (!solicitud) {
+      throw new Error('Solicitud no encontrada');
+    }
+
+    const datosWhatsapp = await this.solicitudesService.generarDatosWhatsapp(solicitud);
+    const resultado = await this.whatsappService.enviarMensajeConEvolution(+id, datosWhatsapp);
+
+    if (resultado.success) {
+      return {
+        success: true,
+        solicitudId: +id,
+        messageId: resultado.messageId,
+        estado: 'enviado',
+        timestamp: new Date().toISOString()
+      };
+    } else {
+      return {
+        success: false,
+        solicitudId: +id,
+        error: resultado.error,
+        estado: 'fallido',
+        timestamp: new Date().toISOString()
+      };
+    }
+  }
+
+  @AuthWithRoles('admin')
+  @Post(':id/previsualizar-whatsapp')
+  async previsualizarWhatsapp(@Param('id') id: string) {
+    const solicitud = await this.solicitudesService.findOne(+id);
+    if (!solicitud) {
+      throw new Error('Solicitud no encontrada');
+    }
+
+    const datosWhatsapp = await this.solicitudesService.generarDatosWhatsapp(solicitud);
+    const resultado = await this.whatsappService.enviarMensaje(datosWhatsapp);
+
+    return {
+      success: true,
+      solicitudId: +id,
+      mensaje: resultado.mensaje,
+      numeroDestino: resultado.numeroDestino,
+      datos: datosWhatsapp,
+      timestamp: new Date().toISOString()
+    };
+  }
+
+  @AuthWithRoles('admin')
+  @Get(':id/estado-whatsapp')
+  async verificarEstadoWhatsapp(@Param('id') id: string) {
+    const resultado = await this.whatsappService.verificarEstadoMensaje(+id);
+    
+    return {
+      success: true,
+      solicitudId: +id,
+      estado: resultado.estado,
+      detalles: resultado.detalles,
+      timestamp: new Date().toISOString()
+    };
+  }
+
+  @AuthWithRoles('admin')
+  @Post(':id/reenviar-whatsapp')
+  async reenviarWhatsapp(@Param('id') id: string) {
+    const resultado = await this.whatsappService.reenviarMensaje(+id);
+    
+    if (resultado.success) {
+      return {
+        success: true,
+        solicitudId: +id,
+        estado: 'reenviado',
+        timestamp: new Date().toISOString()
+      };
+    } else {
+      return {
+        success: false,
+        solicitudId: +id,
+        error: resultado.error,
+        estado: 'error_reenvio',
+        timestamp: new Date().toISOString()
+      };
+    }
+  }
+
+  @AuthWithRoles('admin')
+  @Post('cola/procesar')
+  async procesarColaManual() {
+    await this.cronSchedulerService.procesarColaManual();
+    return {
+      success: true,
+      message: 'Procesamiento manual de cola iniciado',
+      timestamp: new Date().toISOString()
+    };
+  }
+
+  @AuthWithRoles('admin')
+  @Get('cola/estadisticas')
+  async obtenerEstadisticasCola() {
+    const estadisticas = await this.cronSchedulerService.obtenerEstadisticas();
+    return {
+      success: true,
+      estadisticas,
+      timestamp: new Date().toISOString()
+    };
   }
 }

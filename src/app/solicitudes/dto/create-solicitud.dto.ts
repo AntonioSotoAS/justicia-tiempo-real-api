@@ -1,58 +1,81 @@
-import { IsOptional, IsString, IsEnum, IsDateString } from 'class-validator';
+import { IsOptional, IsString, IsEnum, IsDateString, IsNumber, IsBoolean } from 'class-validator';
 import { EstadoSolicitud, PrioridadSolicitud } from '../entities/solicitud.entity';
 
 export class CreateSolicitudDto {
+  // Campos del mensaje
   @IsOptional()
   @IsString()
-  mMetaPreliminar?: string;
+  encuesta?: string;
 
   @IsOptional()
   @IsString()
-  mTResueltos?: string;
+  telefono?: string;
 
   @IsOptional()
   @IsString()
-  mAvanMeta?: string;
-
-  @IsOptional()
-  @IsString()
-  NivProduc?: string;
-
-  @IsOptional()
-  @IsString()
-  encuesta_retroalimentacion?: string;
-
-  @IsOptional()
-  @IsString()
-  numero_consulta?: string;
-
-  @IsOptional()
-  @IsString()
-  anexo_consulta?: string;
-
-  @IsOptional()
-  @IsString()
-  whatsapp_consulta?: string;
-
-  @IsOptional()
-  @IsString()
-  numerojuez?: string;
-
-  @IsOptional()
-  @IsString()
-  nombresapellidsojuez?: string;
-
-  @IsOptional()
-  @IsString()
-  instaciajuez?: string;
+  whatsapp?: string;
 
   @IsOptional()
   @IsDateString()
-  fecha?: string;
+  fechaEnvio?: string;
 
   @IsOptional()
   @IsString()
-  hora?: string;
+  horaEnvio?: string;
+
+  @IsOptional()
+  @IsDateString()
+  fechaCorte?: string;
+
+  // Campos de jueces
+  @IsOptional()
+  @IsString()
+  instancia?: string;
+
+  @IsOptional()
+  @IsString()
+  modulo_nom?: string;
+
+  @IsOptional()
+  @IsNumber()
+  meta_preliminar?: number;
+
+  @IsOptional()
+  @IsString()
+  nivel_prod?: string;
+
+  @IsOptional()
+  @IsNumber()
+  pct_real_avance?: number;
+
+  @IsOptional()
+  @IsNumber()
+  niv_bueno?: number;
+
+  @IsOptional()
+  @IsNumber()
+  niv_muy_bueno?: number;
+
+  @IsOptional()
+  @IsString()
+  resoluciones?: string;
+
+  // Campos del juez
+  @IsOptional()
+  @IsString()
+  nombre_completo?: string;
+
+  @IsOptional()
+  @IsString()
+  telefono_juez?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  l_mensaje?: boolean;
+
+  @IsOptional()
+  @IsString()
+  sexo?: string;
 
   @IsOptional()
   @IsEnum(EstadoSolicitud)

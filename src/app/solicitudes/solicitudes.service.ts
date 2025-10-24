@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Solicitud, EstadoSolicitud, PrioridadSolicitud } from './entities/solicitud.entity';
 import { CreateSolicitudDto } from './dto/create-solicitud.dto';
 import { UpdateSolicitudDto } from './dto/update-solicitud.dto';
+import { SolicitudWhatsappDto } from '../whatsapp/dto/solicitud-whatsapp.dto';
 
 @Injectable()
 export class SolicitudesService {
@@ -23,6 +24,11 @@ export class SolicitudesService {
   }
 
   async create(createSolicitudDto: CreateSolicitudDto): Promise<Solicitud> {
+    // Convertir nombre_completo a mayúsculas si existe
+    if (createSolicitudDto.nombre_completo) {
+      createSolicitudDto.nombre_completo = createSolicitudDto.nombre_completo.toUpperCase();
+    }
+    
     const solicitud = this.solicitudRepository.create(createSolicitudDto);
     return await this.solicitudRepository.save(solicitud);
   }
@@ -76,4 +82,42 @@ export class SolicitudesService {
       porcentajeErrores: total > 0 ? Math.round((errores / total) * 100) : 0
     };
   }
+
+  async generarDatosWhatsapp(solicitud: Solicitud): Promise<SolicitudWhatsappDto> {
+    // Calcular el avance de meta
+    const metaPreliminar = solicitud.meta_preliminar || 0;
+    const resueltos = solicitud.resoluciones || '0';
+    const avanceMeta = solicitud.pct_real_avance || 0;
+    console.log('pct_real_avance:', solicitud.pct_real_avance);
+    console.log('avanceMeta calculado:', avanceMeta);
+
+    // Usar el nivel productivo de la solicitud
+    const nivelProductivo = solicitud.nivel_prod || '';
+
+    // Calcular brechas de producción
+    const brechaMuyBueno = solicitud.niv_muy_bueno || 0;
+    const brechaBueno = solicitud.niv_bueno || 0;
+
+    console.log('solicitud3434', solicitud);
+
+    return {
+      nombreJuez: solicitud.nombre_completo || '',
+      sexoJuez: solicitud.sexo === 'Femenino' ? 'Dra' : 'Dr',
+      fechaCorte: solicitud.fechaCorte ? 
+        (typeof solicitud.fechaCorte === 'string' ? solicitud.fechaCorte : solicitud.fechaCorte.toISOString().split('T')[0]) : 
+        new Date().toISOString().split('T')[0],
+      metaPreliminar,
+      resueltos,
+      avanceMeta,
+      nivelProductivo,
+      instancia: solicitud.instancia || '',
+      numeroConsulta: solicitud.telefono || '',
+      whatsappConsulta: solicitud.whatsapp || '',
+      urlRetroalimentacion: solicitud.encuesta || '',
+      brechaMuyBueno,
+      brechaBueno,
+      numeroWhatsapp: solicitud.telefono_juez || solicitud.whatsapp || ''
+    };
+  }
+
 }

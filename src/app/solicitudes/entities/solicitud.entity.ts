@@ -3,7 +3,9 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 export enum EstadoSolicitud {
   PENDIENTE = 'pendiente',
   ERROR = 'error',
-  ENVIADO = 'enviado'
+  ENVIADO = 'enviado',
+  ENVIANDO = 'enviando',
+  FALLIDO = 'fallido'
 }
 
 export enum PrioridadSolicitud {
@@ -18,44 +20,62 @@ export class Solicitud {
   @PrimaryGeneratedColumn()
   id: number;
 
+  // Campos del mensaje
   @Column({ type: 'text', nullable: true })
-  mMetaPreliminar: string;
-
-  @Column({ type: 'text', nullable: true })
-  mTResueltos: string;
-
-  @Column({ type: 'text', nullable: true })
-  mAvanMeta: string;
-
-  @Column({ type: 'text', nullable: true })
-  NivProduc: string;
-
-  @Column({ type: 'text', nullable: true })
-  encuesta_retroalimentacion: string;
-
-  @Column({ type: 'varchar', length: 50, nullable: true })
-  numero_consulta: string;
-
-  @Column({ type: 'text', nullable: true })
-  anexo_consulta: string;
-
-  @Column({ type: 'varchar', length: 20, nullable: true })
-  whatsapp_consulta: string;
-
-  @Column({ type: 'varchar', length: 50, nullable: true })
-  numerojuez: string;
-
-  @Column({ type: 'varchar', length: 200, nullable: true })
-  nombresapellidsojuez: string;
+  encuesta: string;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
-  instaciajuez: string;
+  telefono: string;
 
-  @Column({ type: 'date', nullable: true })
-  fecha: Date;
+  @Column({ type: 'varchar', length: 20, nullable: true })
+  whatsapp: string;
 
-  @Column({ type: 'time', nullable: true })
-  hora: string;
+  @Column({ type: 'datetime', nullable: true })
+  fechaEnvio: Date;
+
+  @Column({ type: 'varchar', length: 10, nullable: true })
+  horaEnvio: string;
+
+  @Column({ type: 'datetime', nullable: true })
+  fechaCorte: Date;
+
+  // Campos de jueces
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  instancia: string;
+
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  modulo_nom: string;
+
+  @Column({ type: 'int', nullable: true })
+  meta_preliminar: number;
+
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  nivel_prod: string;
+
+  @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true })
+  pct_real_avance: number;
+
+  @Column({ type: 'int', nullable: true })
+  niv_bueno: number;
+
+  @Column({ type: 'int', nullable: true })
+  niv_muy_bueno: number;
+
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  resoluciones: string;
+
+  // Campos del juez
+  @Column({ type: 'varchar', length: 200, nullable: true })
+  nombre_completo: string;
+
+  @Column({ type: 'varchar', length: 20, nullable: true })
+  telefono_juez: string;
+
+  @Column({ type: 'boolean', default: true })
+  l_mensaje: boolean;
+
+  @Column({ type: 'varchar', length: 20, nullable: true })
+  sexo: string;
 
   @Column({ 
     type: 'enum', 
@@ -76,4 +96,20 @@ export class Solicitud {
 
   @UpdateDateColumn({ type: 'datetime', precision: 6 })
   updatedAt: Date;
+
+  // Campos para WhatsApp
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  whatsappMessageId: string | null;
+
+  @Column({ type: 'text', nullable: true })
+  whatsappError: string | null;
+
+  @Column({ type: 'datetime', nullable: true })
+  whatsappSentAt: Date | null;
+
+  @Column({ type: 'datetime', nullable: true })
+  whatsappDeliveredAt: Date | null;
+
+  @Column({ type: 'datetime', nullable: true })
+  whatsappReadAt: Date | null;
 }
